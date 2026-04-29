@@ -1,0 +1,75 @@
+spring:
+  application:
+    name: spendsens-backend
+
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;databaseName=spendsens_db;encrypt=true;trustServerCertificate=true
+    username: ${DB_USERNAME:nagesh}
+    password: ${DB_PASSWORD:123456}
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+      idle-timeout: 600000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    open-in-view: false
+
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.SQLServerDialect
+        format_sql: true
+        jdbc:
+          batch_size: 50
+        order_inserts: true
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+
+server:
+  port: ${PORT:8080}
+  servlet:
+    context-path: /
+
+jwt:
+  secret: ${JWT_SECRET:spendsens-super-secret-jwt-key-change-in-production-2024}
+  expiration: 86400000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+logging:
+  level:
+    com.spendsens: DEBUG
+    org.springframework.security: WARN
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+logging:
+  level:
+    com.spendsens: INFO
