@@ -3,13 +3,13 @@ spring:
     name: spendsens-backend
 
   datasource:
-    url: jdbc:postgresql://db.qihlyodpzobkxlyynvud.supabase.co:5432/postgres?sslmode=require
+    url: jdbc:postgresql://localhost:5432/spendsens_db
     username: postgres
-    password: N@gesh@roy06
+    password: password
     driver-class-name: org.postgresql.Driver
 
     hikari:
-      maximum-pool-size: 10
+      maximum-pool-size: 5
       minimum-idle: 2
       connection-timeout: 30000
       idle-timeout: 600000
@@ -22,7 +22,6 @@ spring:
 
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
         jdbc:
           batch_size: 50
@@ -40,7 +39,7 @@ server:
     context-path: /
 
 jwt:
-  secret: ${JWT_SECRET:spendsens-super-secret-jwt-key-change-in-production-2024}
+  secret: ${JWT_SECRET:spendsens-super-secret-jwt-key-change-in-production}
   expiration: 86400000
 
 management:
@@ -51,7 +50,7 @@ management:
 
 logging:
   level:
-    com.spendsens: DEBUG
+    com.spendsens: INFO
     org.springframework.security: WARN
 
 ---
@@ -66,10 +65,17 @@ spring:
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 2
+      connection-timeout: 30000
+      idle-timeout: 600000
+
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: false
+    open-in-view: false
 
 logging:
   level:
