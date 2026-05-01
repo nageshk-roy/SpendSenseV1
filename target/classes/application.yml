@@ -3,10 +3,10 @@ spring:
     name: spendsens-backend
 
   datasource:
-    url: jdbc:sqlserver://localhost:1433;databaseName=spendsens_db;encrypt=true;trustServerCertificate=true
-    username: ${DB_USERNAME:nagesh}
-    password: ${DB_PASSWORD:123456}
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:postgresql://db.qihlyodpzobkxlyynvud.supabase.co:5432/postgres?sslmode=require
+    username: postgres
+    password: N@gesh@roy06
+    driver-class-name: org.postgresql.Driver
 
     hikari:
       maximum-pool-size: 10
@@ -22,7 +22,7 @@ spring:
 
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.SQLServerDialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
         jdbc:
           batch_size: 50
@@ -64,10 +64,11 @@ spring:
     url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     show-sql: false
 
 logging:

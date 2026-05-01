@@ -36,4 +36,19 @@ public class AuthController {
         authService.logout((Long) auth.getPrincipal());
         return ResponseEntity.noContent().build();
     }
+
+    // Fetch Logged-in User Details
+    @GetMapping("/me")
+    public ResponseEntity<UserDto> getUserDetails(Authentication auth) {
+        Long userId = (Long) auth.getPrincipal();
+        return ResponseEntity.ok(authService.getUserDetails(userId));
+    }
+
+    // Delete Logged-in User
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteUser(Authentication auth) {
+        Long userId = (Long) auth.getPrincipal();
+        authService.deleteUser(userId);
+        return ResponseEntity.noContent().build();
+    }
 }

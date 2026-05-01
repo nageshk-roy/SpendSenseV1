@@ -96,6 +96,36 @@ public class AuthService {
     }
 
     // =========================
+    // FETCH USER DETAILS
+    // =========================
+    public UserDto getUserDetails(Long userId) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() ->
+                        new RuntimeException("User not found"));
+
+        return UserDto.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .photoUrl(user.getPhotoUrl())
+                .build();
+    }
+
+    // =========================
+    // DELETE USER
+    // =========================
+    public void deleteUser(Long userId) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() ->
+                        new RuntimeException("User not found"));
+
+        refreshTokenRepository.deleteByUserId(userId);
+        userRepository.delete(user);
+    }
+
+    // =========================
     // LOGOUT
     // =========================
     public void logout(Long userId) {
